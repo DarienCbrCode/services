@@ -4,41 +4,47 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StockService {
-    private Map<String, Integer> stock = new HashMap<>();
-    private Map<String, Double> precios = new HashMap<>();
+    private Map<String, Double> precios;
+    private Map<String, Integer> stock;
 
     public StockService() {
-        stock.put("laptop", 5);
-        stock.put("mouse", 10);
-        stock.put("teclado", 8);
+        precios = new HashMap<>();
+        stock = new HashMap<>();
 
-        precios.put("laptop", 2500.0);
-        precios.put("mouse", 50.0);
-        precios.put("teclado", 120.0);
+        // Productos disponibles
+        precios.put("Laptop", 2500.00);
+        precios.put("Mouse", 80.00);
+        precios.put("Teclado", 150.00);
+
+        stock.put("Laptop", 10);
+        stock.put("Mouse", 30);
+        stock.put("Teclado", 20);
     }
 
-    public boolean validarStock(String producto, int cantidad) throws Exception {
-        producto = producto.toLowerCase();
-
-        if (cantidad <= 0) {
-            throw new Exception("La cantidad debe ser positiva.");
+    public void mostrarProductos() {
+        System.out.println("Productos disponibles:");
+        int i = 1;
+        for (String producto : precios.keySet()) {
+            System.out.println(i + ". " + producto + " - S/" + precios.get(producto));
+            i++;
         }
-        if (!stock.containsKey(producto)) {
-            throw new Exception("El producto no existe.");
-        }
-        if (stock.get(producto) < cantidad) {
-            throw new Exception("Stock insuficiente.");
-        }
-
-        stock.put(producto, stock.get(producto) - cantidad);
-        return true;
     }
 
-    public double obtenerPrecio(String producto) throws Exception {
-        producto = producto.toLowerCase();
-        if (!precios.containsKey(producto)) {
-            throw new Exception("No hay precio registrado para este producto.");
-        }
+    public String getProductoPorIndice(int index) {
+        return precios.keySet().toArray(new String[0])[index - 1];
+    }
+
+    public boolean verificarStock(String producto, int cantidad) {
+        return stock.containsKey(producto) && stock.get(producto) >= cantidad;
+    }
+
+    public double getPrecio(String producto) {
         return precios.get(producto);
+    }
+
+    public void reducirStock(String producto, int cantidad) {
+        if (stock.containsKey(producto)) {
+            stock.put(producto, stock.get(producto) - cantidad);
+        }
     }
 }

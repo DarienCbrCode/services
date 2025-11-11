@@ -12,3 +12,5 @@ public class FacturaAdapter implements FacturaService {
         legacySystem.emitirFacturaAntigua(cliente, monto);
     }
 }
+
+

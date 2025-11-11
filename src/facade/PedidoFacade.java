@@ -2,55 +2,82 @@ package facade;
 
 import services.*;
 import adapter.*;
+import java.util.List;
+import java.util.ArrayList;
+import strategy.*; // ✅ importante
 
 public class PedidoFacade {
     private StockService stockService;
     private TaxService taxService;
-    private OrderRepository orderRepo;
+    private PedidoRepository pedidoRepo;
     private ComprobanteService comprobanteService;
     private FacturaService facturaService;
+    private ImpuestoStrategy estrategiaImpuesto;
 
     public PedidoFacade() {
         this.stockService = new StockService();
         this.taxService = new TaxService();
-        this.orderRepo = new OrderRepository();
+        this.pedidoRepo = new PedidoRepository();
         this.comprobanteService = new ComprobanteService();
         this.facturaService = new FacturaAdapter(new LegacyBillingSystem());
+        this.estrategiaImpuesto = new IGV18Strategy(); // por defecto
     }
 
-    public void registrarPedido(String cliente, String producto, int cantidad) {
-        try {
-            System.out.println("\n=== Procesando pedido ===");
+    // ✅ Selecciona la estrategia de impuesto
+    public void seleccionarEstrategia(int opcion) {
+        if (opcion == 1) {
+            estrategiaImpuesto = new IGV18Strategy();
+        } else {
+            estrategiaImpuesto = new ExoneradoStrategy();
+        }
+    }
 
-            // 1️⃣ Validación de stock
-            if (stockService.validarStock(producto, cantidad)) {
-                System.out.println("✅ Stock disponible para el producto: " + producto);
+    // ✅ Muestra los productos disponibles
+    public void mostrarProductos() {
+        stockService.mostrarProductos();
+    }
+
+    // ✅ Procesa varios productos (un pedido completo por cliente)
+    public void procesarPedidoMultiple(String cliente, List<String> productos, List<Integer> cantidades) {
+        double subtotalTotal = 0;
+        StringBuilder detalleProductos = new StringBuilder();
+
+        for (int i = 0; i < productos.size(); i++) {
+            String producto = productos.get(i);
+            int cantidad = cantidades.get(i);
+
+            if (!stockService.verificarStock(producto, cantidad)) {
+                System.out.println("❌ No hay stock suficiente para: " + producto);
+                continue;
             }
 
-            // 2️⃣ Obtener precio del producto
-            double precioUnitario = stockService.obtenerPrecio(producto);
-            System.out.println("💲 Precio unitario: S/" + String.format("%.2f", precioUnitario));
+            double precioUnitario = stockService.getPrecio(producto);
+            double subtotal = precioUnitario * cantidad;
+            subtotalTotal += subtotal;
 
-            // 3️⃣ Calcular subtotal, IGV y total
-            double subtotal = cantidad * precioUnitario;
-            double igv = taxService.calcularIGV(subtotal);
-            double total = subtotal + igv;
+            stockService.reducirStock(producto, cantidad);
 
-            System.out.println("🧮 Subtotal: S/" + String.format("%.2f", subtotal));
-            System.out.println("🧾 IGV (18%): S/" + String.format("%.2f", igv));
-            System.out.println("💰 Total a pagar: S/" + String.format("%.2f", total));
-
-            // 4️⃣ Registrar pedido
-            orderRepo.registrar(cliente, producto, cantidad, total);
-
-            // 5️⃣ Generar factura (usando el adaptador)
-            facturaService.generarFactura(cliente, total);
-
-            // 6️⃣ Generar comprobante final
-            comprobanteService.generarComprobante(cliente, producto, subtotal, igv, total);
-
-        } catch (Exception e) {
-            System.out.println("❌ Error: " + e.getMessage());
+            detalleProductos.append("Producto: ").append(producto)
+                    .append(" - Cantidad: ").append(cantidad)
+                    .append(" - Subtotal: S/").append(subtotal)
+                    .append("\n");
         }
+
+        double impuesto = estrategiaImpuesto.calcular(subtotalTotal);
+        double total = subtotalTotal + impuesto;
+
+        // ✅ Generar factura
+        facturaService.generarFactura(cliente, total);
+
+        // ✅ Mostrar comprobante con todos los productos
+        comprobanteService.mostrarComprobanteMultiple(cliente, detalleProductos.toString(), subtotalTotal, impuesto, total);
+
+        // ✅ Guardar todo el pedido junto en el archivo .txt
+        pedidoRepo.guardarPedidoCompleto(cliente, productos, cantidades, total);
+    }
+
+    // ✅ Devuelve nombre del producto según opción
+    public String obtenerNombreProducto(int opcionProducto) {
+        return stockService.getProductoPorIndice(opcionProducto);
     }
 }

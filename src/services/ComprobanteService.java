@@ -1,13 +1,26 @@
 package services;
 
 public class ComprobanteService {
-    public void generarComprobante(String cliente, String producto, double subtotal, double igv, double total) {
+
+    // ✅ Comprobante para pedidos individuales
+    public void mostrarComprobante(String cliente, String producto, double subtotal, double impuesto, double total) {
         System.out.println("\n--- COMPROBANTE ---");
         System.out.println("Cliente: " + cliente);
         System.out.println("Producto: " + producto);
-        System.out.println("Subtotal: S/" + String.format("%.2f", subtotal));
-        System.out.println("IGV (18%): S/" + String.format("%.2f", igv));
-        System.out.println("Total: S/" + String.format("%.2f", total));
+        System.out.println("Subtotal: S/" + subtotal);
+        System.out.println("Impuesto: S/" + impuesto);
+        System.out.println("Total: S/" + total);
+        System.out.println("--------------------");
+    }
+
+    // ✅ Nuevo comprobante para pedidos múltiples
+    public void mostrarComprobanteMultiple(String cliente, String detalle, double subtotal, double impuesto, double total) {
+        System.out.println("\n--- COMPROBANTE ---");
+        System.out.println("Cliente: " + cliente);
+        System.out.println(detalle); // muestra lista de productos con cantidades y subtotales
+        System.out.println("Subtotal total: S/" + subtotal);
+        System.out.println("Impuesto: S/" + impuesto);
+        System.out.println("Total: S/" + total);
         System.out.println("--------------------");
     }
 }

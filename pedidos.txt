@@ -1,0 +1,24 @@
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 2
+Producto: Mouse | Cantidad: 3
+Total del pedido: S/5240.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 4
+Total del pedido: S/11800.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 3
+Producto: Mouse | Cantidad: 1
+Total del pedido: S/7580.0
+----------------------------------------
+=== Pedido de: 1 ===
+Producto: Mouse | Cantidad: 2
+Producto: Laptop | Cantidad: 1
+Total del pedido: S/2660.0
+----------------------------------------
+=== Pedido de: dairne ===
+Producto: Laptop | Cantidad: 2
+Producto: Laptop | Cantidad: 3
+Total del pedido: S/12500.0
+----------------------------------------
