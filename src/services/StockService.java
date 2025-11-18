@@ -30,7 +30,7 @@ public class StockService {
         }
     }
 
-    public String getProductoPorIndice(int index) {
+    public String getProductoPorIndice(int index) {//producto según su posición en la lista
         return precios.keySet().toArray(new String[0])[index - 1];
     }
 

@@ -22,3 +22,52 @@ Producto: Laptop | Cantidad: 2
 Producto: Laptop | Cantidad: 3
 Total del pedido: S/12500.0
 ----------------------------------------
+=== Pedido de: Darien ===
+Producto: Laptop | Cantidad: 2
+Producto: Teclado | Cantidad: 1
+Total del pedido: S/5150.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 25
+Total del pedido: S/0.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 2
+Total del pedido: S/5000.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 17
+Total del pedido: S/0.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 8
+Total del pedido: S/20000.0
+----------------------------------------
+=== Pedido de: xiomara ===
+Producto: Laptop | Cantidad: 4
+Total del pedido: S/0.0
+----------------------------------------
+=== Pedido de: antonella ===
+Producto: Laptop | Cantidad: 2
+Total del pedido: S/5000.0
+----------------------------------------
+=== Pedido de: javier ===
+Producto: Laptop | Cantidad: 1
+Total del pedido: S/0.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 2
+Total del pedido: S/5000.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 3
+Total del pedido: S/7500.0
+----------------------------------------
+=== Pedido de: darien ===
+Producto: Laptop | Cantidad: 2
+Total del pedido: S/5000.0
+----------------------------------------
+=== Pedido de: DARIEN ===
+Producto: Laptop | Cantidad: 2
+Total del pedido: S/5000.0
+----------------------------------------

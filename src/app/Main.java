@@ -7,8 +7,8 @@ import services.PedidoRepository; // ✅ Importar tu repositorio
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        PedidoFacade facade = new PedidoFacade();
-        PedidoRepository repo = new PedidoRepository();
+        PedidoFacade facade = new PedidoFacade();//registrar pedidos...lógica,
+        PedidoRepository repo = new PedidoRepository();//leer los pedidos del archivo
 
         int opcion;
 

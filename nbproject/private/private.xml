@@ -8,13 +8,11 @@
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/adapter/FacturaAdapter.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/adapter/LegacyBillingSystem.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/StockService.java</file>
-            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/TaxService.java</file>
-            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/OrderRepository.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/ComprobanteService.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/app/Main.java</file>
-            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/strategy/ImpuestoStrategy.java</file>
-            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/strategy/IGV18Strategy.java</file>
-            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/strategy/ExoneradoStrategy.java</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/strategy/ImpuestoStrategy.java</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/strategy/IGV18Strategy.java</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/strategy/ExoneradoStrategy.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/services/src/services/PedidoRepository.java</file>
         </group>
     </open-files>

@@ -2,43 +2,54 @@ package facade;
 
 import services.*;
 import adapter.*;
+import strategy.*;
+import threads.*;
+import observer.*;
+
 import java.util.List;
-import java.util.ArrayList;
-import strategy.*; // ✅ importante
 
 public class PedidoFacade {
+
     private StockService stockService;
-    private TaxService taxService;
     private PedidoRepository pedidoRepo;
     private ComprobanteService comprobanteService;
     private FacturaService facturaService;
     private ImpuestoStrategy estrategiaImpuesto;
 
+    // NUEVO → Subject central
+    private PedidoSubject subject;
+
     public PedidoFacade() {
         this.stockService = new StockService();
-        this.taxService = new TaxService();
         this.pedidoRepo = new PedidoRepository();
         this.comprobanteService = new ComprobanteService();
         this.facturaService = new FacturaAdapter(new LegacyBillingSystem());
-        this.estrategiaImpuesto = new IGV18Strategy(); // por defecto
+        this.estrategiaImpuesto = new IGV18Strategy();
+
+        // Inicializar Observer
+        subject = new PedidoSubject();
+        subject.agregarObserver(new LogObserver());
+        subject.agregarObserver(new InventarioObserver());
     }
 
-    // ✅ Selecciona la estrategia de impuesto
     public void seleccionarEstrategia(int opcion) {
-        if (opcion == 1) {
-            estrategiaImpuesto = new IGV18Strategy();
-        } else {
-            estrategiaImpuesto = new ExoneradoStrategy();
-        }
+        if (opcion == 1) estrategiaImpuesto = new IGV18Strategy();
+        else estrategiaImpuesto = new ExoneradoStrategy();
     }
 
-    // ✅ Muestra los productos disponibles
     public void mostrarProductos() {
         stockService.mostrarProductos();
     }
 
-    // ✅ Procesa varios productos (un pedido completo por cliente)
+    public String obtenerNombreProducto(int opcionProducto) {
+        return stockService.getProductoPorIndice(opcionProducto);
+    }
+
+    // ============================
+    // PROCESAR PEDIDO COMPLETO
+    // ============================
     public void procesarPedidoMultiple(String cliente, List<String> productos, List<Integer> cantidades) {
+
         double subtotalTotal = 0;
         StringBuilder detalleProductos = new StringBuilder();
 
@@ -66,18 +77,21 @@ public class PedidoFacade {
         double impuesto = estrategiaImpuesto.calcular(subtotalTotal);
         double total = subtotalTotal + impuesto;
 
-        // ✅ Generar factura
-        facturaService.generarFactura(cliente, total);
-
-        // ✅ Mostrar comprobante con todos los productos
-        comprobanteService.mostrarComprobanteMultiple(cliente, detalleProductos.toString(), subtotalTotal, impuesto, total);
-
-        // ✅ Guardar todo el pedido junto en el archivo .txt
+        // GUARDAR PEDIDO
         pedidoRepo.guardarPedidoCompleto(cliente, productos, cantidades, total);
-    }
 
-    // ✅ Devuelve nombre del producto según opción
-    public String obtenerNombreProducto(int opcionProducto) {
-        return stockService.getProductoPorIndice(opcionProducto);
+        // HILOS ACTIVOS
+        Thread t1 = new PedidoWorker(cliente, subject);
+        Thread t2 = new FacturaWorker(cliente, total, subject);
+        Thread t3 = new NotificacionWorker(subject);
+
+        t1.start();
+        t2.start();
+        t3.start();
+
+        // IMPRIMIR COMPROBANTE
+        comprobanteService.mostrarComprobanteMultiple(
+                cliente, detalleProductos.toString(), subtotalTotal, impuesto, total
+        );
     }
 }
